@@ -1,0 +1,58 @@
+---
+title: "CO2 Emissions_Version 0.01"
+author: "Zhong Zheng"
+date: "4/11/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduction
+
+This is an R Markdown document about the procedures of analyzing factors associated with global CO2 emissions using data from the World Bank (https://data.worldbank.org/).
+
+# Descriptive analysis
+
+First, we will conduct a descriptive analysis of CO2 emissions, GDP per capita, and educational attainment by countries/economies.
+
+```{r CO2}
+summary(CO2)
+```
+
+```{r GDP}
+summary(GDP)
+```
+
+```{r Edu}
+summary(Edu)
+```
+
+## Plots
+
+We can also embed plots, for example:
+
+```{r CO2, echo=FALSE}
+plot(CO2)
+```
+
+# Regression analysis
+
+Next we can run a multiple linear regression predicting CO2 emissions by GDP per capita and educational attainment.
+
+```{r}
+fit <- lm(CO2 ~ GDP + Edu, data=mydata)
+summary(fit)
+kable(anova(fit))
+```
+
+## Regression diagnostic
+
+### Check for outliers
+```{r}
+outlierTest(fit) #get the Bonferroni corrected/adjusted p value
+qqPlot(fit, main="QQ Plot") #qq plot for studentized residuals
+leveragePlots(fit) # leverage plots
+```
+
